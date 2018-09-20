@@ -16,21 +16,19 @@
 import $ from 'jquery'
 
 export default {
-    name:"Pagination",
+    name:"pagination",
     
     data(){
         return {
             pagebtns:[1,2,3,4,5,'.....'],
             overpageinbehind:false,
-            currentPage:1
-            
+            currentPage:1,
         }
     },
     methods:{
         changeBtn(page){
-            console.log($)
-            if(typeof page !=='number'){
-                switch(page.target.innerTex){
+            if(typeof page != 'number'){
+                switch(page.target.innerText){
                     case '上一页':
                     $('button.currentPage').prev().click();
                     break;
@@ -57,9 +55,9 @@ export default {
                 this.pagebtns.splice(5,1);
             }
             
-            this.$emit('handleList',this.currentPage)
+            this.$emit('handleList',this.currentPage);
         }
-    },
+    }
 }
 </script>
 
