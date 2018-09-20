@@ -6,7 +6,7 @@
   <div v-else>
          <div class="topic_header">
              <div class="topic_title">
-                 {{post.title | wordslimit}}
+                 {{post.title}}
              </div>
              <ul>
                  <li>•发布于：{{post.create_at | formatDate}}</li>
@@ -33,7 +33,7 @@
               <span>{{index+1}}楼</span>
               <span v-if="reply.ups.length>0">☝ {{reply.ups.length}}</span>
               <span v-else></span>
-              <p v-html="reply.content" class="markdown-body"></p>
+              <p v-html="reply.content"></p>
           </div>
         </div>
     </div>
@@ -80,6 +80,7 @@ export default {
 </script>
 
 <style>
+@import url('../assets/markdown-github.css');
 .topbar {
   padding: 10px;
   background-color: #f6f6f6;

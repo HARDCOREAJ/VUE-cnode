@@ -13,23 +13,23 @@
         <div class="replyies">
         <p>回复主题</p>
         <ul>
-            <li v-for="(item,index) in userinfo.recent_replies" :key="index">
+        <li v-for="(item,index) in userinfo.recent_replies" :key="index">
                <!--头像-->
                 <router-link :to="{name:'post_content',params:{id:item.id}}" >
                     {{item.title}}
                 </router-link>
-            </li> 
+        </li> 
         </ul>
 
         </div>
         <div class="topics">
         <p>最近参与话题</p>
         <ul>
-            <li v-for="(item,index) in userinfo.recent_topics" :key="index">
+        <li v-for="(item,index) in userinfo.recent_topics" :key="index">
                 <router-link :to="{name:'post_content',params:{id:item.id}}" >
                     {{item.title}}
                 </router-link>
-            </li> 
+        </li> 
         </ul>
         </div>
     </div>
@@ -82,6 +82,7 @@ export default {
 }
 .userInfomation li {
   padding: 9px;
+  margin-left: -30px;
   font-size: 15px;
   font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
     "Hiragino Sans GB", STHeiti, sans-serif !important;
