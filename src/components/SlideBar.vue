@@ -83,8 +83,8 @@ export default {
   },
   beforeMount() {
     this.getData(); //在页面加载之前获取数据
-  },
   }
+};
 </script>
 
 

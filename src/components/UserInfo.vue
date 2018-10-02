@@ -11,24 +11,40 @@
             <p>注册时间：{{userinfo.create_at | formatDate}}</p>
         </section>
         <div class="replyies">
-        <p>回复主题</p>
+        <p>最近创建话题</p>
         <ul>
-        <li v-for="(item,index) in userinfo.recent_replies" :key="index">
+        <li v-for="(item,index) in userinfo.recent_topics" :key="index">
                <!--头像-->
-                <router-link :to="{name:'post_content',params:{id:item.id}}" >
-                    {{item.title}}
-                </router-link>
+              <a class="author-img-wrapper">
+                <img :src="item.author.avatar_url" alt="">
+              </a>
+                <!-- 内容 -->
+              <router-link :to="{name:'post_content',params:{id:item.id}}" >
+                {{item.title}}
+              </router-link>
+                <!-- 时间 -->
+              <span class="last-time-wrapper">
+                {{item.last_reply_at | formatDate}}
+              </span>
         </li> 
         </ul>
-
         </div>
         <div class="topics">
         <p>最近参与话题</p>
         <ul>
-        <li v-for="(item,index) in userinfo.recent_topics" :key="index">
-                <router-link :to="{name:'post_content',params:{id:item.id}}" >
-                    {{item.title}}
-                </router-link>
+        <li v-for="(item,index) in userinfo.recent_replies" :key="index">
+            <!--头像-->
+            <a class="author-img-wrapper">
+                  <img :src="item.author.avatar_url" alt="">
+            </a>
+          <!-- 内容 -->
+            <router-link :to="{name:'post_content',params:{id:item.id}}" >
+                {{item.title}}
+            </router-link>
+            <!-- 时间 -->
+            <span class="last-time-wrapper">
+                {{item.last_reply_at | formatDate}}
+            </span>
         </li> 
         </ul>
         </div>
@@ -95,8 +111,9 @@ export default {
 .userInfomation .replies,
 .userInfomation .topics {
   font-size: 0.72rem;
-  border-top: 10px #dddddd solid;
+  border-top: 10px;
 }
+
 .userInfomation > div > p {
   padding: 12px 0 12px 12px;
   background-color: rgba(212, 205, 205, 0.17);

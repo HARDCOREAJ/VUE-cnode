@@ -23,6 +23,8 @@ export default {
             pagebtns:[1,2,3,4,5,'.....'],
             overpageinbehind:false,
             currentPage:1,
+            articleTopic: '',
+            topic: []
         }
     },
     methods:{
@@ -44,7 +46,15 @@ export default {
                 }
                 return;
             }
-            this.currentPage = page;
+            this.currentPage = page
+            /* 帖子类型 */
+            this.topic = document.querySelectorAll('.topic-tab')
+            for(let i = 0;i<this.topic.length; i++){
+                if(this.topic[i].classList.item(1)){
+                this.articleTopic = this.topic[i].innerText
+                }
+            }
+            /* 当前页面判断 */
             if(page>4){this.overpageinbehind=true;}
             else{this.overpageinbehind=false;}
             if(page==this.pagebtns[4]){
@@ -55,7 +65,16 @@ export default {
                 this.pagebtns.splice(5,1);
             }
             
-            this.$emit('handleList',this.currentPage);
+            this.$emit('handleList',[this.currentPage,this.articleTopic,this.changeBtn])
+            
+        },
+        changePage(){
+            if(this.pageBtn !== [1,2,3,4,5]){
+                this.pageBtn = [1,2,3,4,5]
+                this.judge = false
+                this.currentPage = 1
+            }
+
         }
     }
 }

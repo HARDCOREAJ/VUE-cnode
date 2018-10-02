@@ -9,11 +9,8 @@
     <ul>
       <li>
         <div class="topbar">
-          <span>全部</span>
-          <span>精华</span>
-          <span>分享</span>
-          <span>问答</span>
-          <span>招聘</span>
+        <span v-for="(span,index) in spans" :key="span.text" :class="['topic-tab',{active:index === current}]"  @click="changeTopic(index)">
+          {{span.text}}</span>
         </div>
       </li>
         <li v-for="post in posts" :key="post.title">
@@ -54,7 +51,7 @@
             </span>
         </li>
         <li>
-          <pagination @handleList="renderList"></pagination>
+          <pagination @handleList="renderList" ref="changePage"></pagination><!-- //分页 -->
         </li>
     </ul>
   </div>
@@ -63,28 +60,44 @@
 </template>
 
 <script>
-import pagination from'./Pagination'
+import pagination from "./Pagination";
 export default {
   name: "postList",
-  components:{
+  components: {
     pagination
   },
   data() {
     return {
       IsLoading: false,
       posts: [],
-      postpage:1,
-      limit:20,
+      postpage: 1,
+      limit: 20,
+      tab: {},
+      spans: [
+        { text: "全部" },
+        { text: "精华" },
+        { text: "分享" },
+        { text: "问答" },
+        { text: "招聘" }
+      ],
+      current: 0
     };
   },
 
   methods: {
-    getData() {
+    getData(topic) {
+      var topicValue
+        if(!topic){
+          topicValue = ''
+        }
+      topicValue = topic
       this.$http
-        .get("https://cnodejs.org/api/v1/topics",{
-          params:{
-          page: this.postpage,
-          limit: 20}
+        .get("https://cnodejs.org/api/v1/topics", {
+          params: {
+            page: this.postpage,
+            limit: 20,
+            tab: topicValue,
+          }
         })
         .then(res => {
           this.IsLoading = false;
@@ -94,11 +107,52 @@ export default {
           console.log(err);
         });
     },
-    renderList(value){
+    renderList(value) {
       this.postpage = value;
-      this.getData();
-    }
+      this.postPage = value[0]
+      switch(value[1]){
+        case '全部':
+        this.getData()
+        break
+        case '精华':
+        this.getData('good')
+        break
+        case '分享':
+        this.getData('share')
+        break
+        case '问答':
+        this.getData('ask')
+        break
+        case '招聘':
+        this.getData('job')
+        break
+        }
+    },
+    changeTopic(index){
+      this.current = index
+      this.postPage = 1
+      this.isLoading = true
+      this.$refs.changePage.changePage()//切换主题过后 重置当前第一页
+      switch(this.current){
+        case 0:
+        this.getData()
+        break
+        case 1:
+        this.getData('good')
+        break
+        case 2:
+        this.getData('share')
+        break
+        case 3:
+        this.getData('ask')
+        break
+        case 4:
+        this.getData('job')
+        break
+            }
+        },
   },
+  
 
   beforeMount() {
     this.IsLoading = true;
@@ -161,7 +215,6 @@ li span {
 
 .reply_count {
   color: #9e78c0;
-  font-size: 14px;
 }
 
 .put_good,
