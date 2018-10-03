@@ -9,8 +9,7 @@
     <ul>
       <li>
         <div class="topbar">
-        <span v-for="(span,index) in spans" :key="span.text" :class="['topic-tab',{active:index === current}]"  @click="changeTopic(index)">
-          {{span.text}}</span>
+        <span v-for="(span,index) in spans" :key="span.text" :class="['topic-tab',{active:index === current}]"  @click="changeTopic(index)">{{span.text}}</span>
         </div>
       </li>
         <li v-for="post in posts" :key="post.title">
@@ -51,7 +50,7 @@
             </span>
         </li>
         <li>
-          <pagination @handleList="renderList" ref="changePage"></pagination><!-- //分页 -->
+          <Pagination @handleList="renderList" :currentPage="this.postPage" ref="changePage"></Pagination><!-- //分页 -->
         </li>
     </ul>
   </div>
@@ -60,21 +59,21 @@
 </template>
 
 <script>
-import pagination from "./Pagination";
+import Pagination from "./Pagination";
 export default {
   name: "postList",
   components: {
-    pagination
+    Pagination
   },
   data() {
     return {
       IsLoading: false,
       posts: [],
-      postpage: 1,
+      postPage: 1,
       limit: 20,
       tab: {},
       spans: [
-        { text: "全部" },
+        { text:"全部" },
         { text: "精华" },
         { text: "分享" },
         { text: "问答" },
@@ -86,17 +85,17 @@ export default {
 
   methods: {
     getData(topic) {
-      var topicValue
-        if(!topic){
-          topicValue = ''
-        }
-      topicValue = topic
+      var topicValue;
+      if (!topic) {
+        topicValue = "";
+      }
+      topicValue = topic;
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
           params: {
-            page: this.postpage,
+            page: this.postPage,
             limit: 20,
-            tab: topicValue,
+            tab: topicValue
           }
         })
         .then(res => {
@@ -108,51 +107,50 @@ export default {
         });
     },
     renderList(value) {
-      this.postpage = value;
-      this.postPage = value[0]
-      switch(value[1]){
-        case '全部':
-        this.getData()
-        break
-        case '精华':
-        this.getData('good')
-        break
-        case '分享':
-        this.getData('share')
-        break
-        case '问答':
-        this.getData('ask')
-        break
-        case '招聘':
-        this.getData('job')
-        break
-        }
+      //this.isLoading = true;
+      this.postPage = value[0];
+      switch (value[1]) {
+        case "全部":
+          this.getData();
+          break;
+        case "精华":
+          this.getData("good");
+          break;
+        case "分享":
+          this.getData("share");
+          break;
+        case "问答":
+          this.getData("ask");
+          break;
+        case "招聘":
+          this.getData("job");
+          break;
+      }
     },
-    changeTopic(index){
-      this.current = index
-      this.postPage = 1
-      this.isLoading = true
-      this.$refs.changePage.changePage()//切换主题过后 重置当前第一页
-      switch(this.current){
+    changeTopic(index) {
+      this.current = index;
+      this.postPage = 1;
+      this.isLoading = true;
+      this.$refs.changePage.changePage(); //切换主题过后 重置当前按钮为1
+      switch (this.current) {
         case 0:
-        this.getData()
-        break
+          this.getData();
+          break;
         case 1:
-        this.getData('good')
-        break
+          this.getData("good");
+          break;
         case 2:
-        this.getData('share')
-        break
+          this.getData("share");
+          break;
         case 3:
-        this.getData('ask')
-        break
+          this.getData("ask");
+          break;
         case 4:
-        this.getData('job')
-        break
-            }
-        },
+          this.getData("job");
+          break;
+      }
+    }
   },
-  
 
   beforeMount() {
     this.IsLoading = true;
@@ -298,5 +296,11 @@ a:hover {
 .loading {
   text-align: center;
   padding-top: 300px;
+}
+.topic-tab.active {
+  background-color: #80bd01;
+  color: #fff;
+  padding: 3px 4px;
+  border-radius: 3px;
 }
 </style>
