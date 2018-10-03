@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style>
-@import url("./assets/markdown-github.css");
+@import url('./assets/markdown-github.css');
 .main{
   margin: 15px auto;
   width: 90%;

@@ -1,6 +1,6 @@
 <template>
-<div class="article">
-    <div class="loading" v-if="isLoading">
+<div class="article" id="content">
+    <div class="loading" v-if="isLoading" >
         <img src="../assets/loading.gif">
     </div>
   <div v-else>
@@ -80,7 +80,6 @@ export default {
 </script>
 
 <style>
-@import url('../assets/markdown-github.css');
 .topbar {
   padding: 10px;
   background-color: #f6f6f6;
@@ -148,8 +147,7 @@ export default {
 }
 
 .topic_header li {
-  display: inline-block;
-  font-size: 12px;
+  font-size: 14px;
   color: #838383;
 }
 
@@ -157,4 +155,9 @@ export default {
   border-top: 1px solid #e5e5e5;
   padding: 0 10px;
 }
+.topic_content li ul{
+  list-style: square
+}
+
+
 </style>
